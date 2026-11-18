@@ -1,0 +1,19 @@
+# Starts the display when the Pi boots and restarts it if it ever crashes.
+# Install:  see README, "Start it automatically".
+[Unit]
+Description=Wasatch wall display
+After=graphical.target network-online.target
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/skiwasatch-display
+Environment=DISPLAY=:0
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+ExecStart=/home/pi/skiwasatch-display/.venv/bin/python -m wasatch_display
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical.target
